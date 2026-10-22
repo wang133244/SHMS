@@ -1,0 +1,8 @@
+<view class="page" wx:if="{{task}}">
+  <view class="title">{{task.title}}</view>
+  <view class="muted">{{task.due_date}} · {{task.time_range||'时间按岗位安排'}}</view>
+  <view class="card"><view class="row"><text>任务状态</text><text class="warning">{{task.status}}</text></view><view class="section-title">工作要求</view><view>{{task.content}}</view><view wx:if="{{task.acceptance_criteria}}"><view class="section-title">验收要点</view>{{task.acceptance_criteria}}</view></view>
+  <view class="card"><view class="section-title">提交记录</view><view class="muted" wx:if="{{!task.submissions.length}}">尚无提交记录</view><view wx:for="{{task.submissions}}" wx:key="id" class="submission"><view>第 {{item.version}} 次提交 · {{item.submitted_at}}</view><view>{{item.note}}</view><view class="muted">照片 {{item.photo_keys.length}} 张</view></view></view>
+  <view class="card" wx:if="{{task.status==='pending'}}"><view class="section-title">提交完成记录</view><textarea class="input" placeholder="填写完成情况" maxlength="1000" bindinput="inputNote"/><view class="row"><button size="mini" bindtap="choosePhotos">添加现场照片 {{photos.length}}/3</button><text class="muted" wx:if="{{uploading}}">上传中</text></view><button class="primary" bindtap="submit">提交任务</button></view>
+  <view class="card" wx:if="{{task.status==='submitted'}}"><view class="section-title">申请更改</view><textarea class="input" placeholder="说明需要重新提交的原因" maxlength="1000" bindinput="inputReason"/><button bindtap="requestChange">提交更改申请</button></view>
+</view>

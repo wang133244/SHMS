@@ -1,0 +1,1 @@
+<view class="page"><view class="title">我的</view><view class="card">角色：{{session.role}}<view>岗位：{{session.position}}</view></view><button bindtap="logout">退出登录</button></view>

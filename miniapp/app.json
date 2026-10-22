@@ -1,0 +1,5 @@
+{
+  "pages": ["pages/login/index", "pages/home/index", "pages/tasks/index", "pages/task-detail/index", "pages/chat/index", "pages/profile/index", "pages/admin/index"],
+  "window": {"navigationBarTitleText": "幼儿园岗位管理", "navigationBarBackgroundColor": "#1f4e79", "navigationBarTextStyle": "white", "backgroundColor": "#1f4e79"},
+  "style": "v2"
+}

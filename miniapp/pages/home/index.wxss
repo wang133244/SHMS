@@ -1,0 +1,38 @@
+page { min-height: 100%; background: #e8f8ff; color: #173b55; }
+.home-shell { min-height: 100vh; position: relative; overflow: hidden; background: #e8f8ff; }
+.campus-art { position: absolute; z-index: 0; left: 0; top: 0; width: 100%; height: 470rpx; opacity: .98; }
+.home-tint { position: absolute; z-index: 1; left: 0; top: 0; width: 100%; height: 620rpx; background: linear-gradient(180deg, rgba(232,248,255,.08) 0%, rgba(232,248,255,.68) 56%, #e8f8ff 100%); }
+.home-content { position: relative; z-index: 2; box-sizing: border-box; min-height: 100vh; padding: 54rpx 32rpx 34rpx; }
+.home-header { display: flex; align-items: center; gap: 14rpx; }
+.brand-mark { width: 58rpx; height: 58rpx; display: flex; align-items: center; justify-content: center; border-radius: 20rpx 20rpx 20rpx 8rpx; background: #ff9e42; box-shadow: 0 7rpx 0 #e77a32; }
+.brand-mark-inner { width: 22rpx; height: 22rpx; border: 4rpx solid #fff; border-radius: 5rpx 12rpx 5rpx 12rpx; transform: rotate(-8deg); }
+.brand-name { display: block; color: #17466b; font-size: 30rpx; line-height: 1.1; font-weight: 700; }
+.brand-subtitle { display: block; margin-top: 5rpx; color: #59809a; font-size: 19rpx; }
+.role-pill { margin-left: auto; padding: 10rpx 18rpx; border-radius: 24rpx; background: rgba(255,255,255,.8); color: #32738c; font-size: 22rpx; font-weight: 700; }
+.dashboard-card, .pending-card { margin-top: 108rpx; padding: 30rpx 24rpx 26rpx; border: 3rpx solid rgba(216,239,244,.92); border-radius: 24rpx; background: rgba(255,255,255,.94); box-shadow: 0 12rpx 0 rgba(74,159,176,.12); }
+.eyebrow { color: #4b8ca7; font-size: 18rpx; font-weight: 700; }
+.welcome-title { margin-top: 16rpx; color: #17466b; font-size: 38rpx; line-height: 1.35; font-weight: 700; }
+.welcome-highlight { display: block; color: #ef7e35; font-size: 30rpx; }
+.welcome-meta { margin-top: 12rpx; color: #7898a7; font-size: 23rpx; }
+.section-title { margin: 28rpx 0 14rpx; color: #17466b; font-size: 27rpx; font-weight: 700; }
+.action-grid { display: flex; flex-direction: column; gap: 14rpx; }
+.action-card { display: flex; align-items: center; min-height: 88rpx; padding: 16rpx; border: 2rpx solid #d8eff4; border-radius: 16rpx; background: #f8fdff; }
+.action-icon { width: 58rpx; height: 58rpx; display: flex; align-items: center; justify-content: center; margin-right: 16rpx; border-radius: 18rpx; background: #e8f8ff; color: #32738c; font-size: 25rpx; font-weight: 700; }
+.action-copy { flex: 1; }
+.action-title { color: #17466b; font-size: 27rpx; font-weight: 700; }
+.action-desc { margin-top: 5rpx; color: #7898a7; font-size: 21rpx; }
+.action-arrow { padding-left: 10rpx; color: #ff914d; font-size: 42rpx; line-height: 1; }
+.task-hint { margin-top: 20rpx; padding: 14rpx 16rpx; border-radius: 12rpx; background: #fff5ed; color: #a56a43; font-size: 21rpx; }
+.pending-card { min-height: 560rpx; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.pending-symbol { width: 112rpx; height: 112rpx; display: flex; align-items: center; justify-content: center; margin-bottom: 28rpx; border-radius: 50%; background: #e4f2ec; }
+.pending-symbol view { width: 42rpx; height: 42rpx; border: 6rpx solid #176b57; border-radius: 50%; position: relative; }
+.pending-symbol view::after { content: ''; position: absolute; width: 14rpx; height: 14rpx; right: -12rpx; bottom: -7rpx; border-radius: 50%; background: #e7a944; border: 3rpx solid #e4f2ec; }
+.title { color: #17466b; font-size: 38rpx; font-weight: 700; }
+.muted { color: #64766f; font-size: 24rpx; }
+.pending-status { margin-top: 24rpx; color: #176b57; font-size: 31rpx; font-weight: 700; }
+.pending-copy { max-width: 520rpx; margin: 30rpx 0; color: #64766f; font-size: 25rpx; line-height: 1.7; }
+.pending-card .primary { width: 100%; margin-top: 34rpx; }
+.primary { background: #0f766e; color: #fff; }
+.logout-button { width: 100%; margin-top: 24rpx; border: 2rpx solid #b9dfe5; border-radius: 14rpx; background: rgba(255,255,255,.58); color: #32738c; font-size: 25rpx; }
+.logout-button::after { border: 0; }
+@media (max-width: 360px) { .home-content { padding-left: 24rpx; padding-right: 24rpx; } .welcome-title { font-size: 34rpx; } .action-desc { font-size: 20rpx; } }

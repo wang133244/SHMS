@@ -1,0 +1,88 @@
+<view class="page admin-page">
+  <view class="title">园务管理</view>
+  <view class="tab-strip">
+    <view wx:for="{{tabs}}" wx:key="*this" class="tab {{activeTab===index?'tab-active':''}}" data-index="{{index}}" bindtap="selectTab">{{item}}</view>
+  </view>
+  <view wx:if="{{error}}" class="error-line">{{error}}</view>
+
+  <view wx:if="{{activeTab===0}}">
+    <view class="stats-grid">
+      <view class="stat"><text class="stat-value">{{dashboard.active_staff || 0}}</text><text class="muted">在岗员工</text></view>
+      <view class="stat"><text class="stat-value">{{dashboard.today_tasks || 0}}</text><text class="muted">今日任务</text></view>
+      <view class="stat"><text class="stat-value">{{dashboard.overdue_tasks || 0}}</text><text class="muted">逾期任务</text></view>
+      <view class="stat"><text class="stat-value">{{dashboard.pending_change_requests || 0}}</text><text class="muted">待审核申请</text></view>
+    </view>
+    <view class="card row"><view><view class="section-title">任务生成</view><view class="muted">按园历及已发布规则生成 {{calendarDate}} 的任务</view></view><button class="small-primary" bindtap="generateToday">生成今日</button></view>
+    <view class="card row"><text>待审核知识切片</text><text class="stat-value">{{dashboard.draft_chunks || 0}}</text></view>
+  </view>
+
+  <view wx:if="{{activeTab===1}}">
+    <view class="section-title">待审核修改申请 · {{requests.length}}</view>
+    <view wx:if="{{requests.length===0}}" class="empty">暂无待审核申请</view>
+    <view class="card" wx:for="{{requests}}" wx:key="id">
+      <view class="row"><text class="item-title">{{item.task_title}}</text><text class="tag">{{item.position_code}}</text></view>
+      <view class="muted">{{item.requester_name}} · {{item.reason}}</view>
+      <view class="actions"><button size="mini" class="small-primary" data-id="{{item.id}}" data-action="approve" bindtap="review">同意</button><button size="mini" class="small-danger" data-id="{{item.id}}" data-action="reject" bindtap="review">拒绝</button></view>
+    </view>
+  </view>
+
+  <view wx:if="{{activeTab===2}}">
+    <view class="section-title">员工与岗位</view>
+    <view class="card" wx:for="{{staff}}" wx:key="id">
+      <view class="row"><text class="item-title">{{item.name}}</text><text class="tag">{{item.position || (item.role==='admin'?'管理员':'待分配')}}</text></view>
+      <view class="muted">{{item.employee_no}} · {{item.role}} · {{item.employment_status==='active'?'在岗':'已停用'}} · {{item.has_password?'已设置密码':'未设置密码'}}</view>
+      <view class="actions" wx:if="{{item.role==='employee' && !item.position}}"><button size="mini" class="small-primary" data-id="{{item.id}}" bindtap="assignPosition">分配岗位</button></view>
+    </view>
+    <view class="section-title">新增普通员工</view>
+    <view class="form card">
+      <input class="input" placeholder="姓名" data-group="newStaff" data-field="name" value="{{newStaff.name}}" bindinput="input" />
+      <input class="input" placeholder="工号" data-group="newStaff" data-field="employee_no" value="{{newStaff.employee_no}}" bindinput="input" />
+      <input class="input" type="number" maxlength="11" placeholder="手机号" data-group="newStaff" data-field="phone" value="{{newStaff.phone}}" bindinput="input" />
+      <input class="input" password="true" placeholder="初始密码（至少 8 位）" data-group="newStaff" data-field="password" value="{{newStaff.password}}" bindinput="input" />
+      <picker range="{{staffPositions}}" value="{{staffPositionIndex}}" bindchange="chooseStaffPosition"><view class="picker-row">岗位：{{staffPositions[staffPositionIndex]}} <text>›</text></view></picker>
+      <button class="primary" bindtap="createStaff">添加员工</button>
+    </view>
+  </view>
+
+  <view wx:if="{{activeTab===3}}">
+    <view class="row section-head"><view class="section-title">任务模板</view><button size="mini" class="small-primary" bindtap="resetTemplate">新建草稿</button></view>
+    <view class="card" wx:for="{{templates}}" wx:key="id">
+      <view class="row"><text class="item-title">{{item.title}}</text><text class="tag">{{item.status}}</text></view>
+      <view class="muted">{{item.position_code}} · {{item.frequency}} · {{item.source_sheet}} 第{{item.source_row}}行</view>
+      <view class="actions" wx:if="{{item.status==='draft'}}"><button size="mini" data-id="{{item.id}}" bindtap="editTemplate">补全草稿</button><button size="mini" class="small-primary" data-id="{{item.id}}" bindtap="publishTemplate">审核并发布</button></view>
+    </view>
+    <view class="section-title">{{editId ? '补全任务模板' : '新建任务模板'}}</view>
+    <view class="form card">
+      <picker range="{{positions}}" value="{{positionIndex}}" bindchange="choosePosition"><view class="picker-row">岗位：{{positions[positionIndex]}} <text>›</text></view></picker>
+      <picker range="{{frequencies}}" value="{{frequencyIndex}}" bindchange="chooseFrequency"><view class="picker-row">周期：{{frequencies[frequencyIndex]}} <text>›</text></view></picker>
+      <input class="input" placeholder="职责名称" data-field="title" value="{{form.title}}" bindinput="input" />
+      <input class="input" placeholder="执行时段，如 08:00-08:30" data-field="time_range" value="{{form.time_range}}" bindinput="input" />
+      <input class="input" placeholder="截止时间，如 09:00" data-field="due_time" value="{{form.due_time}}" bindinput="input" />
+      <textarea class="input textarea" placeholder="工作内容（依据原始细则填写）" data-field="content" value="{{form.content}}" bindinput="input" />
+      <textarea class="input textarea" placeholder="验收要点" data-field="acceptance_criteria" value="{{form.acceptance_criteria}}" bindinput="input" />
+      <textarea class="input textarea rule-input" placeholder="周期规则 JSON；每周需填写 weekday 0-4；月/学期需填写 dates" data-field="schedule_rule" value="{{form.schedule_rule}}" bindinput="input" />
+      <button class="primary" loading="{{busy}}" bindtap="saveTemplate">保存为草稿</button>
+    </view>
+    <view class="row section-head"><view class="section-title">岗位知识库</view><button size="mini" class="small-primary" bindtap="uploadWorkbook">上传 Excel</button></view>
+    <view wx:if="{{drafts}}" class="card">
+      <view class="item-title">{{drafts.file_name}}</view>
+      <view class="muted">知识切片 {{drafts.chunks.length}} · 任务草稿 {{drafts.templates.length}}</view>
+      <view class="draft-row" wx:for="{{drafts.chunks}}" wx:key="id">
+        <view class="row"><text>{{item.task_label || '未分类职责'}} · {{item.position_code || '待确认岗位'}}</text><text class="tag">{{item.status}}</text></view>
+        <view class="muted">{{item.sheet}} 第{{item.row}}行</view><view class="draft-content">{{item.content}}</view>
+        <view class="actions" wx:if="{{item.status==='draft'}}"><button size="mini" data-id="{{item.id}}" bindtap="classifyChunk">选择岗位并发布</button><button wx:if="{{item.position_code}}" size="mini" class="small-primary" data-id="{{item.id}}" bindtap="publishChunk">核对后发布</button></view>
+      </view>
+      <view class="muted" wx:if="{{drafts.templates.length===0}}">该文件未解析出可分类的任务模板；职责原文仍可逐条核对并发布为知识。</view>
+    </view>
+  </view>
+
+  <view wx:if="{{activeTab===4}}">
+    <view class="section-title">园历规则</view>
+    <view class="card form">
+      <picker mode="date" value="{{calendarDate}}" bindchange="chooseCalendarDate"><view class="picker-row">日期：{{calendarDate}} <text>选择</text></view></picker>
+      <picker range="{{calendarKinds}}" value="{{calendarKindIndex}}" bindchange="chooseCalendarKind"><view class="picker-row">类型：{{calendarKinds[calendarKindIndex]}} <text>›</text></view></picker>
+      <button class="primary" bindtap="saveCalendar">保存园历</button>
+    </view>
+    <view class="muted">普通岗位仅在工作日生成任务；节假日、寒暑假不生成。调休工作日请设为 makeup_workday。</view>
+  </view>
+</view>

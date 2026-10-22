@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kindergarten-personnel-mvp"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.30,<1",
+  "sqlalchemy>=2.0,<3",
+  "pydantic-settings>=2.5,<3",
+  "PyJWT>=2.9,<3",
+  "python-multipart>=0.0.12,<1",
+  "httpx>=0.27,<1",
+  "openpyxl>=3.1,<4",
+  "pgvector>=0.3,<1",
+  "psycopg[binary]>=3.2,<4",
+  "langgraph>=0.2,<1",
+  "langchain-openai>=0.2,<1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<9", "httpx>=0.27,<1"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]

@@ -1,0 +1,39 @@
+<view class="login-page">
+  <image class="campus-art" src="/assets/login/campus-landscape-cc0.webp" mode="aspectFill" />
+  <view class="art-tint"></view>
+  <view class="brand-row">
+    <view class="brand-mark"><view class="brand-mark-inner"></view></view>
+    <view><text class="brand-name">园务协同</text><text class="brand-subtitle">快乐成长 · 一起工作</text></view>
+  </view>
+
+  <view class="welcome">
+    <text class="eyebrow">KINDERGARTEN CAMPUS</text>
+    <text class="welcome-title">欢迎来到
+      <text class="welcome-highlight">成长乐园</text>
+    </text>
+    <text class="welcome-copy">登录查看今日岗位工作与园务安排</text>
+  </view>
+
+  <view class="login-panel">
+    <view class="panel-heading">账号登录</view>
+    <view class="field-label">工号</view>
+    <input class="login-input" placeholder="请输入管理员分配的工号" placeholder-class="placeholder" value="{{employeeNo}}" bindinput="inputEmployeeNo" maxlength="40" />
+    <view class="field-label password-label">密码</view>
+    <input class="login-input" placeholder="请输入登录密码" placeholder-class="placeholder" password="true" value="{{password}}" bindinput="inputPassword" maxlength="128" confirm-type="go" bindconfirm="passwordLogin" />
+    <view class="quick-login-title">演示账号快捷登录</view>
+    <view class="quick-login-list">
+      <button wx:for="{{demoAccounts}}" wx:key="employeeNo" class="quick-account" data-index="{{index}}" bindtap="selectDemoAccount">{{item.employeeNo}} · {{item.label}}</button>
+    </view>
+    <view wx:if="{{error}}" class="error-message">{{error}}</view>
+    <button class="login-button" loading="{{busy}}" disabled="{{busy}}" bindtap="passwordLogin">登录工作台</button>
+    <view class="account-note">账号由园务管理员创建或分配</view>
+  </view>
+
+  <view class="wechat-area">
+    <view class="divider"><view></view><text>或使用微信</text><view></view></view>
+    <button class="wechat-button" open-type="getPhoneNumber" bindgetphonenumber="phoneLogin">
+      <view class="wechat-dot">微</view><text>微信手机号登录</text>
+    </button>
+  </view>
+  <text class="footer-note">园务协同 · 幼儿园内部工作平台</text>
+</view>

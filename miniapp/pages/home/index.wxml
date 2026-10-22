@@ -1,0 +1,36 @@
+<view class="home-shell">
+  <image class="campus-art" src="/assets/login/campus-landscape-cc0.webp" mode="aspectFill" />
+  <view class="home-tint"></view>
+  <view class="home-content">
+    <view class="home-header">
+      <view class="brand-mark"><view class="brand-mark-inner"></view></view>
+      <view><text class="brand-name">园务协同</text><text class="brand-subtitle">快乐成长 · 一起工作</text></view>
+      <view class="role-pill">{{roleLabel}}</view>
+    </view>
+
+    <view wx:if="{{pendingAssignment}}" class="pending-card">
+      <view class="pending-symbol"><view></view></view>
+      <view class="title">账号已开通</view>
+      <view class="pending-status">待分配岗位</view>
+      <view class="muted">工号 {{displayEmployeeNo}}</view>
+      <view class="pending-copy">管理员完成岗位分配后，你的工作任务和岗位职责会显示在这里。</view>
+      <button class="primary" bindtap="logout">退出登录</button>
+    </view>
+
+    <view wx:else class="dashboard-card">
+      <view class="eyebrow">KINDERGARTEN CAMPUS</view>
+      <view class="welcome-title">你好，{{roleLabel}}<text class="welcome-highlight">今天也一起加油</text></view>
+      <view class="welcome-meta">工号 {{displayEmployeeNo}} · {{positionLabel}}</view>
+      <view class="section-title">我的工作台</view>
+      <view class="action-grid">
+        <view wx:for="{{quickActions}}" wx:key="title" class="action-card" bindtap="go" data-url="{{item.url}}">
+          <view class="action-icon">{{item.icon}}</view>
+          <view class="action-copy"><view class="action-title">{{item.title}}</view><view class="action-desc">{{item.desc}}</view></view>
+          <view class="action-arrow">›</view>
+        </view>
+      </view>
+      <view wx:if="{{session.role==='employee'}}" class="task-hint">今日已有 {{tasks.length}} 项任务，点击“今日任务”查看详情。</view>
+    </view>
+    <button class="logout-button" bindtap="logout">退出登录</button>
+  </view>
+</view>

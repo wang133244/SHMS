@@ -1,0 +1,1 @@
+<view class="page"><view class="title">岗位问答</view><input class="input" placeholder="询问本岗位职责或任务要求" bindinput="input"/><button class="primary" bindtap="ask">查询已审核细则</button><view class="card" wx:if="{{answer}}">{{answer}}<view class="muted" wx:for="{{citations}}" wx:key="chunk_id">来源：{{item.file_name}} / {{item.sheet}} 第 {{item.row}} 行</view></view></view>
